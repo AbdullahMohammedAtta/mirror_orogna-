@@ -28,199 +28,281 @@ class RegisterPage extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color.fromARGB(255, 188, 248, 234),Color.fromARGB(
-                      255, 253, 208, 248)],
+                  colors: [Color.fromARGB(255, 255, 255, 255),Color.fromARGB(
+                      255, 255, 255, 255)],
                 ),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Spacer(flex: 2,),
-                    const Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text('Register',style: TextStyle(color: Colors.white,fontSize: 35,fontWeight: FontWeight.bold),),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(15)),
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 1.0,
-                        ),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Spacer(flex: 2,),
+                      const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text('Register',style: TextStyle(color: Colors.blueGrey,fontSize: 35,fontWeight: FontWeight.bold),),
                       ),
-                      child: TextFormField(
-                        onTap: () {},
-                        decoration: const InputDecoration(
-                          prefixText: '    ',
-                          hintText: 'User name',
-                          hintFadeDuration: Duration(milliseconds: 500),
-                          hintStyle: TextStyle(color: Colors.grey,height: 3),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 25,),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(15)),
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: TextFormField(
-                        onTap: () {},
-                        decoration: const InputDecoration(
-                          prefixText: '    ',
-                          hintText: 'Email address',
-                          hintFadeDuration: Duration(milliseconds: 500),
-                          hintStyle: TextStyle(color: Colors.grey,height: 3),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 25,),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(15)),
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 1.0,
-                        ),
-                      ),
-                      child: TextFormField(
-                        onTap: () {},
-                        obscureText: true,
-                        decoration:  InputDecoration(
-                          prefixText: '    ',
-                          suffixIcon: IconButton(onPressed: (){}, icon:const Icon(Icons.remove_red_eye,color: Colors.grey,)),
-                          hintText: 'Password',
-                          hintFadeDuration: const Duration(milliseconds: 500),
-                          hintStyle: const TextStyle(color: Colors.grey,height: 3),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.blueGrey,
-                              ),
-                              height: 3,
-
-                            ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(15)),
+                          border: Border.all(
+                            color: Colors.blue,
+                            width: 1.0,
                           ),
                         ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.blueGrey,
-                              ),
-                              height: 3,
-
-                            ),
+                        child: TextFormField(
+                          keyboardType: TextInputType.name,
+                          controller: nameController,
+                          validator: (value)
+                          {
+                            if (value!.isEmpty)
+                            {
+                              return "Name is required";
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            prefixText: '    ',
+                            hintText: 'User name',
+                            hintFadeDuration: Duration(milliseconds: 500),
+                            hintStyle: TextStyle(color: Colors.grey,height: 3),
+                            border: InputBorder.none,
                           ),
                         ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.blueGrey,
-                              ),
-                              height: 3,
-
-                            ),
+                      ),
+                      const SizedBox(height: 25,),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(15)),
+                          border: Border.all(
+                            color: Colors.blue,
+                            width: 1.0,
                           ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 30,),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 60,
-                            decoration:  BoxDecoration(
-                                borderRadius: const BorderRadius.all(Radius.circular(15)),
-                                color: Colors.blueGrey[700]
-
-                            ),
-                            child: MaterialButton(
-                                child:const Text('Register',style: TextStyle(color: Colors.white,fontSize: 24,),),
-                                onPressed: (){
-                                  authCubit.register(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                      name: nameController.text,
-                                      phone: phoneController.text,
-                                  );
-                                }
-
-                            ),
+                        child: TextFormField(
+                          keyboardType: TextInputType.phone,
+                          controller: phoneController,
+                          validator: (value)
+                          {
+                            if (value!.isEmpty)
+                            {
+                              return "Number is required";
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            prefixText: '    ',
+                            hintText: 'Phone number',
+                            hintFadeDuration: Duration(milliseconds: 500),
+                            hintStyle: TextStyle(color: Colors.grey,height: 3),
+                            border: InputBorder.none,
                           ),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 30,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 1,
-                          width: 50,
-                          color: Colors.blueGrey,
-                        ),
-                        const Text('    or sign in with    '),
-                        Container(
-                          height: 1,
-                          width: 50,
-                          color: Colors.blueGrey,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: (){},
-                          child: Container(
-                            height: 50,
-                            clipBehavior: Clip.hardEdge,
-                            decoration:BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Image(image: AssetImage('assets/img/gg.webp')),
+                      ),
+                      const SizedBox(height: 25,),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(15)),
+                          border: Border.all(
+                            color: Colors.blue,
+                            width: 1.0,
                           ),
                         ),
-                      ],
-                    ),
-                    const Spacer(flex: 1,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text('already have an account? '),
-                        InkWell(
-                            onTap: (){
-                              Navigator.pop(context);
+                        child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          controller: emailController,
+                          validator: (value)
+                          {
+                            if (value!.isEmpty)
+                            {
+                              return "Email is required";
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            prefixText: '    ',
+                            hintText: 'Email address',
+                            hintFadeDuration: Duration(milliseconds: 500),
+                            hintStyle: TextStyle(color: Colors.grey,height: 3),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 25,),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(15)),
+                          border: Border.all(
+                            color: Colors.blue,
+                            width: 1.0,
+                          ),
+                        ),
+                        child: TextFormField(
+                          controller: passwordController,
+                          validator: (value)
+                          {
+                            if (value!.isEmpty)
+                            {
+                              return "Password is required";
+                            }
+                            return null;
+                          },
+                          obscureText: authCubit.isVisible,
+                          decoration:  InputDecoration(
+                            prefixText: '    ',
+                            suffixIcon:
+                            IconButton(
+                                onPressed: ()
+                            {
+                              authCubit.changeIcon();
                             },
-                            child: const Text('Login',style: TextStyle(color: Colors.blue),)),
-                      ],
-                    ),
-                  ],
+                              icon: authCubit.isVisible ? Icon(Icons.remove_red_eye_outlined,color: Colors.grey,) : Icon(Icons.visibility_off_outlined,color: Colors.grey,),
+                          ),
+                            hintText: 'Password',
+                            hintFadeDuration: const Duration(milliseconds: 500),
+                            hintStyle: const TextStyle(color: Colors.grey,height: 3),
+                            border: InputBorder.none,
+
+                          ),
+                        ),
+                      ),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: Padding(
+                      //         padding: const EdgeInsets.all(10.0),
+                      //         child: Container(
+                      //           decoration: BoxDecoration(
+                      //             borderRadius: BorderRadius.circular(15),
+                      //             color: Colors.blueGrey,
+                      //           ),
+                      //           height: 3,
+                      //
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       child: Padding(
+                      //         padding: const EdgeInsets.all(10.0),
+                      //         child: Container(
+                      //           decoration: BoxDecoration(
+                      //             borderRadius: BorderRadius.circular(15),
+                      //             color: Colors.blueGrey,
+                      //           ),
+                      //           height: 3,
+                      //
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       child: Padding(
+                      //         padding: const EdgeInsets.all(10.0),
+                      //         child: Container(
+                      //           decoration: BoxDecoration(
+                      //             borderRadius: BorderRadius.circular(15),
+                      //             color: Colors.blueGrey,
+                      //           ),
+                      //           height: 3,
+                      //
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       child: Padding(
+                      //         padding: const EdgeInsets.all(10.0),
+                      //         child: Container(
+                      //           decoration: BoxDecoration(
+                      //             borderRadius: BorderRadius.circular(15),
+                      //             color: Colors.blueGrey,
+                      //           ),
+                      //           height: 3,
+                      //
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      const SizedBox(height: 30,),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 60,
+                              decoration:  BoxDecoration(
+                                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                                  color: Colors.blue.shade300
+                              ),
+                              child: MaterialButton(
+                                  child:const Text('Register',style: TextStyle(color: Colors.white,fontSize: 24,),),
+                                  onPressed: (){
+                                    if(formKey.currentState!.validate())
+                                    {
+                                      authCubit.register(
+                                        email: emailController.text.trim(),
+                                        password: passwordController.text.trim(),
+                                        name: nameController.text.trim(),
+                                        phone: phoneController.text.trim(),
+                                      );
+                                    }
+
+                                  }
+
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 1,
+                            width: 50,
+                            color: Colors.blueGrey,
+                          ),
+                          const Text('    or sign in with    '),
+                          Container(
+                            height: 1,
+                            width: 50,
+                            color: Colors.blueGrey,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: (){},
+                            child: Container(
+                              height: 50,
+                              clipBehavior: Clip.hardEdge,
+                              decoration:BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Image(image: AssetImage('assets/img/gg.webp')),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Spacer(flex: 1,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('already have an account? '),
+                          InkWell(
+                              onTap: (){
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Login',style: TextStyle(color: Colors.blue),)),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

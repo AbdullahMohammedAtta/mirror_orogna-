@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mirror_original/features/auth/model/user_model.dart';
 import 'package:mirror_original/features/auth/view_model/auth_state.dart';
-
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
@@ -13,11 +13,10 @@ class AuthCubit extends Cubit<AuthState> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
-  // LOGIN
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
+  // ================= LOGIN =================
+
+  Future<void> login({required String email, required String password,}) async
+  {
     emit(LoginLoadingState());
 
     try {
@@ -25,20 +24,25 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         password: password,
       );
+
       emit(LoginSuccessState());
+
     } on FirebaseAuthException catch (e) {
-      emit(LoginErrorState(e.message ?? 'Login Error'));
-      print(e.toString());
+
+      emit(
+        LoginErrorState(
+          e.message ?? 'Login Error',
+        ),
+      );
+
+      debugPrint(e.toString());
     }
   }
 
-  // REGISTER
-  Future<void> register({
-    required String name,
-    required String email,
-    required String password,
-    required String phone,
-  }) async {
+  // ================= REGISTER =================
+
+  Future<void> register({required String name, required String email, required String password, required String phone,}) async
+  {
 
     emit(RegisterLoadingState());
 
@@ -50,11 +54,13 @@ class AuthCubit extends Cubit<AuthState> {
         password: password,
       );
 
+      // Send Email Verification
+      await userCredential.user!.sendEmailVerification();
+
       UserModel userModel = UserModel(
         uId: userCredential.user!.uid,
         name: name,
         email: email,
-        password: password,
         phone: phone,
         image: '',
       );
@@ -66,23 +72,63 @@ class AuthCubit extends Cubit<AuthState> {
 
       emit(RegisterSuccessState());
 
+    } on FirebaseAuthException catch (e) {
+
+      emit(
+        RegisterErrorState(
+          e.message ?? 'Register Error',
+        ),
+      );
+
+      debugPrint(e.toString());
+
     } catch (e) {
 
-      emit(RegisterErrorState(e.toString()));
-      print(e.toString());
+      emit(
+        RegisterErrorState(
+          e.toString(),
+        ),
+      );
 
+      debugPrint(e.toString());
     }
   }
 
-  // LOGOUT
+  // ================= LOGOUT =================
+
   Future<void> logout() async {
-    await auth.signOut();
+
+    try {
+
+      await auth.signOut();
+
+      emit(LogoutSuccessState());
+
+    } catch (e) {
+
+      debugPrint(e.toString());
+    }
   }
 
+  // ================= PASSWORD VISIBILITY =================
+
   bool isVisible = false;
-  void changeIcon()
-  {
+
+  void changeIcon() {
+
     isVisible = !isVisible;
+
     emit(ChangeIconState());
   }
+
+  // ================= CHECK EMAIL VERIFIED =================
+
+  bool isEmailVerified() {
+
+    return auth.currentUser?.emailVerified ?? false;
+  }
+
+  // ================= GET CURRENT USER =================
+
+  User? get currentUser => auth.currentUser;
 }

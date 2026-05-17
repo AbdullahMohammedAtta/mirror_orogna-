@@ -12,7 +12,7 @@ class LoginPage extends StatelessWidget {
 
   var emailController = TextEditingController();
   var passController = TextEditingController();
-  var forKey = GlobalKey<FormState>();
+  var formKey = GlobalKey<FormState>();
 
 
 
@@ -39,7 +39,7 @@ class LoginPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: Form(
-                    key: forKey,
+                    key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +58,6 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                           child: TextFormField(
-                            onTap: () {},
                             validator: (value)
                             {
                               if (value!.isEmpty)
@@ -107,7 +106,8 @@ class LoginPage extends StatelessWidget {
                               suffixIcon: IconButton(
                                   onPressed: (){
                                     authCubit.changeIcon();
-                                  }, icon: authCubit.isVisible ? Icon(Icons.remove_red_eye_outlined,color: Colors.grey,) : Icon(Icons.visibility_off_outlined,color: Colors.grey,)),
+                                  },
+                                  icon: authCubit.isVisible ? Icon(Icons.remove_red_eye_outlined,color: Colors.grey,) : Icon(Icons.visibility_off_outlined,color: Colors.grey,)),
                               hintText: 'Password',
                               hintFadeDuration: const Duration(milliseconds: 500),
                               hintStyle: const TextStyle(color: Colors.grey,height: 3),
@@ -139,9 +139,9 @@ class LoginPage extends StatelessWidget {
                                 child: MaterialButton(
                                     child:const Text('Login',style: TextStyle(color: Colors.white,fontSize: 24,),),
                                     onPressed: (){
-                                      if(forKey.currentState!.validate())
+                                      if(formKey.currentState!.validate())
                                       {
-                                        authCubit.login(email: emailController.text, password: passController.text);
+                                        authCubit.login(email: emailController.text.trim(), password: passController.text.trim());
                                       }
                                     }
                                 ),
