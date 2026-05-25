@@ -17,11 +17,14 @@ class HomeCubit extends Cubit<HomeState>{
   }
 
   int selectedNavBarIndex = 0;
-
   void changeNavBar(int index)
   {
     selectedNavBarIndex = index;
     emit(ChangeNavBarState());
   }
+
+
+
+  
 
 }
