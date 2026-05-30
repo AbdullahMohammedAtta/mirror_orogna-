@@ -4,51 +4,41 @@ import 'package:mirror_original/features/home/model/product_model.dart';
 import '../../../core/widgets/myDivider.dart';
 
 Widget buildProductCard(ProductModel product,context) {
-  return Container(
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(15),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.blue.shade200,
-          blurRadius: 10,
-          offset: const Offset(0, 4),
-        ),
-
-
-      ],
-    ),
+  return Card(
+    color: Colors.white,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
         Stack(
           children: [
-            Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF4F4F4),
-                    borderRadius: BorderRadius.circular(30),
+            Container(
+              width: double.infinity,
+              height: 150,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: product.mainImage.isNotEmpty
+                  ? ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    product.mainImage,
+                    fit: BoxFit.cover,
                   ),
-                  child: product.mainImage.isNotEmpty
-                      ? Image.network(product.mainImage,fit: BoxFit.cover,)
-                      : const Center(
-                    child: Icon(
-                      Icons.snowshoeing,
-                      size: 70,
-                      color: Colors.black26,
-                    ),
-                  ),
+              )
+                  : const Center(
+                child: Icon(
+                  Icons.snowshoeing,
+                  size: 70,
+                  color: Colors.black26,
                 ),
-              ],
+              ),
             ),
             if (!product.isAvailable)
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(15),topLeft: Radius.circular(15)),
                     color: Color.fromRGBO(170, 170, 170, 0.5),
                   ),
                   child: const Center(
@@ -88,7 +78,7 @@ Widget buildProductCard(ProductModel product,context) {
                   Spacer(),
                   CircleAvatar(
                     backgroundColor: Color.fromRGBO(
-                        143, 141, 141, 0.5),
+                        200, 200, 200, 0.5019607843137255),
                     radius: 15,
                     child:IconButton(onPressed: (){}, icon:  Icon(
                       product.isFavorite

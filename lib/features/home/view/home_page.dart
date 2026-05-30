@@ -196,7 +196,7 @@ class HomePage extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: Color.fromRGBO(233, 255, 254, 1.0),
+          backgroundColor: Color.fromRGBO(255, 255, 255, 1.0),
           drawer: buildDrawer(context),
           appBar: buildAppBar(),
           body: SingleChildScrollView(

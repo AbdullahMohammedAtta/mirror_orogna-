@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mirror_original/core/utils/block_observer.dart';
+import 'package:mirror_original/core/utils/cache_helper.dart';
 import 'package:mirror_original/features/auth/view_model/auth_cubit.dart';
 import 'package:mirror_original/features/home/view_model/home_cubit.dart';
 import 'package:mirror_original/features/splash/view/splash_page.dart';
@@ -12,6 +13,7 @@ void main() async
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
   Bloc.observer = MyBlocObserver();
+  await CacheHelper.init();
 
   runApp(const MyApp());
 }

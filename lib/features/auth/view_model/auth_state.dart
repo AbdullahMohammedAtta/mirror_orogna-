@@ -8,7 +8,11 @@ class LogoutSuccessState extends AuthState {}
 
 class LoginLoadingState extends AuthState {}
 
-class LoginSuccessState extends AuthState {}
+class LoginSuccessState extends AuthState {
+  final String uId;
+
+  LoginSuccessState({required this.uId});
+}
 
 class LoginErrorState extends AuthState {
   final String error;

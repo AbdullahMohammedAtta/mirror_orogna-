@@ -1,9 +1,12 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mirror_original/core/utils/cache_helper.dart';
 import 'package:mirror_original/core/utils/functions.dart';
 import 'package:mirror_original/features/auth/view/register_page.dart';
 import 'package:mirror_original/features/auth/view_model/auth_cubit.dart';
 import 'package:mirror_original/features/auth/view_model/auth_state.dart';
+import 'package:mirror_original/features/home/view/home_page.dart';
 
 
 
@@ -21,7 +24,24 @@ class LoginPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: BlocConsumer<AuthCubit,AuthState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if(state is LoginErrorState)
+            {
+              showToast(message: 'error', state: ToastState.error);
+            }
+            if(state is LoginSuccessState)
+            {
+              showToast(message: 'Logged in successfully', state: ToastState.success);
+              CacheHelper.saveData(
+                  key: 'uId',
+                  value: state.uId
+              ).then((value)
+              {
+                navigateAndFinish(context, HomePage());
+              }
+              );
+            }
+          },
           builder: (context, state) {
 
             var authCubit = AuthCubit.get(context);
@@ -139,7 +159,19 @@ class LoginPage extends StatelessWidget {
                                       color: Color.fromRGBO(81, 179, 236, 1.0)
                                   ),
                                   child: MaterialButton(
-                                      child:const Text('Login',style: TextStyle(color: Colors.white,fontSize: 24,),),
+                                      child: ConditionalBuilder(
+                                        builder: (context) => Text(
+                                          'Login',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        condition: state is! LoginLoadingState,
+                                        fallback:(context) => Center(child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: CircularProgressIndicator(color: Colors.white,),
+                                        )),
+                                      ),
                                       onPressed: (){
                                         if(formKey.currentState!.validate())
                                         {

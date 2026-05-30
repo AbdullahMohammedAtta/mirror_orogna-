@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 
 
@@ -13,34 +15,36 @@ void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
       (route) {return false;},
 );
 
-enum ToastState{SUCCESS,WRONG,WARNING}
-Color chooseToastColor(ToastState state)
-{
-  Color color;
-  switch(state)
-  {
-    case ToastState.SUCCESS:
-      color = Colors.green;
-      break;
-    case ToastState.WRONG:
-      color = Colors.red;
-      break;
-    case ToastState.WARNING:
-      color = Colors.amber;
-      break;
+enum ToastState { success, error, warning }
+
+extension ToastStateExtension on ToastState {
+  Color get color {
+    switch (this) {
+      case ToastState.success:
+        return Colors.green;
+      case ToastState.error:
+        return Colors.red;
+      case ToastState.warning:
+        return Colors.amber;
+    }
   }
-  return color;
 }
 
-// void showToast({required String text,required ToastState state})
-// {
-//   Fluttertoast.showToast(
-//       msg: text,
-//       toastLength: Toast.LENGTH_LONG,
-//       gravity: ToastGravity.BOTTOM,
-//       timeInSecForIosWeb: 5,
-//       backgroundColor: chooseToastColor(state),
-//       textColor: Colors.white,
-//       fontSize: 16.0
-//   );
-// }
+void showToast({
+  required String message,
+  required ToastState state,
+  ToastGravity gravity = ToastGravity.BOTTOM,
+  int durationInSeconds = 3,
+}) {
+  Fluttertoast.cancel(); // يمنع تكدس التوستات
+
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: gravity,
+    timeInSecForIosWeb: durationInSeconds,
+    backgroundColor: state.color.withOpacity(0.95),
+    textColor: Colors.white,
+    fontSize: 14.0,
+  );
+}
